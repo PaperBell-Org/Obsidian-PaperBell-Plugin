@@ -1,0 +1,10 @@
+{
+  "id": "paperbell",
+  "name": "PaperBell",
+  "description": "Supercharges your academic writing workflow.",
+  "version": "0.0.1",
+  "author": "Paperbell",
+  "authorUrl": "https://github.com/paperbell-org",
+  "isDesktopOnly": false,
+  "minAppVersion": "1.0.0"
+}
