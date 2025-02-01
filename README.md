@@ -7,6 +7,16 @@
 - Displays or automatically creates notes after retrieving information
 - Supports custom templates for institution notes
 
+## How to use
+
+1. Install the plugin
+2. Create a template file in your vault (e.g., `templates/institution.md`)
+3. Use the variables above in your template file
+4. Set the template path in plugin settings
+5. The plugin will use your template when creating new institution notes
+
+Or use default command/ribbon icon to search institution and create note.
+
 ## Template Variables
 
 You can use the following template variables in your institution note templates:

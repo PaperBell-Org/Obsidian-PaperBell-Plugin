@@ -7,6 +7,17 @@
 - 检索信息后显示或自动创建笔记
 - 支持自定义机构笔记模板
 
+## 使用方法
+
+1. 安装插件
+2. 在您的 vault 中创建模板文件（例如：`templates/institution.md`）
+3. 在模板文件中使用上述变量
+4. 在插件设置中设置模板路径
+5. 插件将在创建新的机构笔记时使用您的模板
+
+或者使用默认命令/工具栏图标来搜索机构并创建笔记。
+
+
 ## 模板变量
 
 您可以在机构笔记模板中使用以下模板变量：
@@ -32,15 +43,14 @@
 
 ````markdown
 ---
-name: {{ppb.institute.name}}
 abbr: {{ppb.institute.abbr}}
-aliases: 
+aliases:
 {{ppb.institute.aliases}}
 website: {{ppb.institute.website}}
-lat: {{ppb.institute.lat}}
-lon: {{ppb.institute.lon}}
+location: [{{ppb.institute.lat}}, {{ppb.institute.lon}}]
 logo: {{ppb.institute.logo}}
-tags: 
+name: {{ppb.institute.name}}
+tags:
 {{ppb.institute.tags}}
 ---
 
@@ -49,6 +59,10 @@ tags:
 ## 概览
 
 [Website]({{ppb.institute.website}})
+
+```mapview
+{"name":"Default","mapZoom":8,"centerLat":{{ppb.institute.lat}},"centerLng":{{ppb.institute.lon}},"query":"","chosenMapSource":0}
+```
 
 ## 相关学者
 
