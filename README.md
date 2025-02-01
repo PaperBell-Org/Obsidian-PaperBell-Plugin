@@ -35,8 +35,7 @@ abbr: {{ppb.institute.abbr}}
 aliases:
 {{ppb.institute.aliases}}
 website: {{ppb.institute.website}}
-lat: {{ppb.institute.lat}}
-lon: {{ppb.institute.lon}}
+location: [{{ppb.institute.lat}}, {{ppb.institute.lon}}]
 logo: {{ppb.institute.logo}}
 name: {{ppb.institute.name}}
 tags:
@@ -48,6 +47,10 @@ tags:
 ## Overview
 
 [Website]({{ppb.institute.website}})
+
+```mapview
+{"name":"Default","mapZoom":8,"centerLat":{{ppb.institute.lat}},"centerLng":{{ppb.institute.lon}},"query":"","chosenMapSource":0}
+```
 
 ## Affiliated Scholars
 
@@ -62,4 +65,3 @@ dv.pages(`#scholar`)
 )
 ```
 ````
-
