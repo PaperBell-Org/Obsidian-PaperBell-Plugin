@@ -2,7 +2,7 @@
 
 ## 当前功能
 
-- 监控文件创建，从 yaml frontmatter 中提取 `institute` 信息用于创建笔记
+- 自动监控文件更新，从 yaml frontmatter 中提取 `institute` 信息用于创建笔记
 - 为 `Quickadd` 集成提供全局 API
 - 检索信息后显示或自动创建笔记
 - 支持自定义机构笔记模板
@@ -13,13 +13,13 @@
 
 | 变量 | 描述 | 示例 |
 |----------|-------------|---------|
-| {{paperbell.name}} | 机构全称 | 哈佛大学 |
-| {{paperbell.abbr}} | 机构缩写 | HU |
-| {{paperbell.aliases}} | 替代名称列表 | - Harvard<br>- Harvard College |
-| {{paperbell.website}} | 机构网站 URL | https://harvard.edu |
-| {{paperbell.location}} | 地理坐标 | [42.3744, -71.1169] |
-| {{paperbell.logo}} | 机构 logo URL | https://example.com/logo.png |
-| {{paperbell.tags}} | 标签列表 | - university |
+| {{ppb.institute.name}} | 机构全称 | 哈佛大学 |
+| {{ppb.institute.abbr}} | 机构缩写 | HU |
+| {{ppb.institute.aliases}} | 替代名称列表 | - Harvard<br>- Harvard College |
+| {{ppb.institute.website}} | 机构网站 URL | https://harvard.edu |
+| {{ppb.institute.lat}}, {{ppb.institute.lon}} | 地理坐标 | 42.3744, -71.1169 |
+| {{ppb.institute.logo}} | 机构 logo URL | https://example.com/logo.png |
+| {{ppb.institute.tags}} | 标签列表 | - university |
 
 ### 使用模板
 
@@ -32,21 +32,23 @@
 
 ````markdown
 ---
-name: {{paperbell.name}}
-abbr: {{paperbell.abbr}}
+name: {{ppb.institute.name}}
+abbr: {{ppb.institute.abbr}}
 aliases: 
-{{paperbell.aliases}}
-website: {{paperbell.website}}
-location: {{paperbell.location}}
+{{ppb.institute.aliases}}
+website: {{ppb.institute.website}}
+lat: {{ppb.institute.lat}}
+lon: {{ppb.institute.lon}}
+logo: {{ppb.institute.logo}}
 tags: 
-{{paperbell.tags}}
+{{ppb.institute.tags}}
 ---
 
-# {{paperbell.name}}
+# {{ppb.institute.name}}
 
 ## 概览
 
-[Website]({{paperbell.website}})
+[Website]({{ppb.institute.website}})
 
 ## 相关学者
 

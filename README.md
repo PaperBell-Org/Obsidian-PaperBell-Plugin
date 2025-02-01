@@ -2,7 +2,7 @@
 
 ## Current Features
 
-- Monitors file creation and extracts `institute` information from yaml frontmatter to create notes
+- Automatically monitors file updates to extract `institute` information from yaml frontmatter
 - Provides global API for `Quickadd` integration
 - Displays or automatically creates notes after retrieving information
 - Supports custom templates for institution notes
@@ -13,13 +13,13 @@ You can use the following template variables in your institution note templates:
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| {{paperbell.name}} | Institution's full name | Harvard University |
-| {{paperbell.abbr}} | Institution's abbreviation | HU |
-| {{paperbell.aliases}} | List of alternative names | - Harvard<br>- Harvard College |
-| {{paperbell.website}} | Institution's website URL | https://harvard.edu |
-| {{paperbell.location}} | Geographic coordinates | [42.3744, -71.1169] |
-| {{paperbell.logo}} | Institution's logo URL | https://example.com/logo.png |
-| {{paperbell.tags}} | List of tags | - university |
+| {{ppb.institute.name}} | Institution's full name | Harvard University |
+| {{ppb.institute.abbr}} | Institution's abbreviation | HU |
+| {{ppb.institute.aliases}} | List of alternative names | - Harvard<br>- Harvard College |
+| {{ppb.institute.website}} | Institution's website URL | https://harvard.edu |
+| {{ppb.institute.lat}}, {{ppb.institute.lon}} | Geographic coordinates | 42.3744, -71.1169 |
+| {{ppb.institute.logo}} | Institution's logo URL | https://example.com/logo.png |
+| {{ppb.institute.tags}} | List of tags | - university |
 
 ### Using Templates
 
@@ -31,21 +31,23 @@ You can use the following template variables in your institution note templates:
 Example template:
 ````markdown
 ---
-name: {{paperbell.name}}
-abbr: {{paperbell.abbr}}
-aliases: 
-{{paperbell.aliases}}
-website: {{paperbell.website}}
-location: {{paperbell.location}}
-tags: 
-{{paperbell.tags}}
+abbr: {{ppb.institute.abbr}}
+aliases:
+{{ppb.institute.aliases}}
+website: {{ppb.institute.website}}
+lat: {{ppb.institute.lat}}
+lon: {{ppb.institute.lon}}
+logo: {{ppb.institute.logo}}
+name: {{ppb.institute.name}}
+tags:
+{{ppb.institute.tags}}
 ---
 
-# {{paperbell.name}}
+# {{ppb.institute.name}}
 
 ## Overview
 
-[Website]({{paperbell.website}})
+[Website]({{ppb.institute.website}})
 
 ## Affiliated Scholars
 
@@ -60,3 +62,4 @@ dv.pages(`#scholar`)
 )
 ```
 ````
+
