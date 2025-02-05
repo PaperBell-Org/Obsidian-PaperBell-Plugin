@@ -1,4 +1,8 @@
 
+# 0.1.6
+
+- Fix bug that prevented the verification process from completing
+
 # 0.1.3
 
 - Refactor to use `ppb.institute` instead of `paperbell` for future compatibility
