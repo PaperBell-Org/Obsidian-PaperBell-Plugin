@@ -1,3 +1,7 @@
+# 0.2.1
+
+- Fix bug that prevented the updater from working
+
 
 # 0.2.0
 
