@@ -2,7 +2,7 @@
   "id": "paperbell",
   "name": "PaperBell",
   "description": "Supercharges your academic writing workflow.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": "Paperbell",
   "authorUrl": "https://github.com/paperbell-org",
   "isDesktopOnly": false,
