@@ -1,7 +1,7 @@
-# 0.2.1
+# 0.2.1~0.2.2
 
 - Fix bug that prevented the updater from working
-
+- Fix regex pattern for glob patterns that contain `*`
 
 # 0.2.0
 
