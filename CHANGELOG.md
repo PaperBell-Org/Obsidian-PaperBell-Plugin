@@ -1,3 +1,9 @@
+# 0.2.4
+
+- Feat: support web verification of paperbell plugin, you can buy one from https://paperbell.cn
+- Revert: disable network updates, you can still update manually using local files through the status bar or command palette.
+
+
 # 0.2.1~0.2.3
 
 - Fix bug that prevented the updater from working
