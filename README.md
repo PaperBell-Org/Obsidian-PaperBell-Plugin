@@ -39,7 +39,7 @@ You can use the following template variables in your institution note templates:
 4. The plugin will use your template when creating new institution notes
 
 Example template:
-````markdown
+```markdown
 ---
 abbr: {{ppb.institute.abbr}}
 aliases:
@@ -64,14 +64,10 @@ tags:
 
 ## Affiliated Scholars
 
-```dataviewjs
-let name = dv.current().name
-
-dv.table(["Name", "Title", "Website", "Email"],
-dv.pages(`#scholar`)
-  .where(b => b.institute.includes(name))
-  .map(b => [b.file.link, b.title, ("[🔗]("+b.website+")"), b.email])
-  .sort(b => b.paper_date, 'desc')
-)
+```dataview
+TABLE file.link AS "Name", title AS "Title", website AS "Website", email AS "Email"
+FROM #scholar
+WHERE contains(institute, this.name)
+SORT paper_date DESC
 ```
 ````

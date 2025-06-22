@@ -66,14 +66,10 @@ tags:
 
 ## 相关学者
 
-```dataviewjs
-let name = dv.current().name
-
-dv.table(["姓名", "职称", "网站", "邮箱"],
-dv.pages(`#scholar`)
-  .where(b => b.institute.includes(name))
-  .map(b => [b.file.link, b.title, ("[🔗]("+b.website+")"), b.email])
-  .sort(b => b.paper_date, 'desc')
-)
+```dataview
+TABLE file.link AS "姓名", title AS "职称", website AS "网站", email AS "邮箱"
+FROM #scholar
+WHERE contains(institute, this.name)
+SORT paper_date DESC
 ```
 ````

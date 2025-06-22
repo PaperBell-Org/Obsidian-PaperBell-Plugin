@@ -1,3 +1,7 @@
+# 0.2.5
+
+- Fix bug that prevented the proxy service from working
+
 # 0.2.4
 
 - Feat: support web verification of paperbell plugin, you can buy one from https://paperbell.cn
