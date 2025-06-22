@@ -1,4 +1,4 @@
-# 0.2.5
+# 0.2.5~0.2.6
 
 - Fix bug that prevented the proxy service from working
 
