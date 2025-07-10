@@ -1,3 +1,7 @@
+# 0.2.7
+
+- fix: updater not working correctly
+
 # 0.2.5~0.2.6
 
 - Fix bug that prevented the proxy service from working
