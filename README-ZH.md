@@ -45,6 +45,11 @@ PaperBell 是 Obsidian 上 PaperBell 系列插件的**主插件（宿主）**。
 
 **当前契约版本：`PPB_SCHEMA_VERSION = 2`。**
 
+> **子插件从 0.4.5 及更早版本升上来？** 契约的字段形状一个都没改，但绕开契约
+> 直接伸手拿主插件内部对象的路径（`app.plugins.plugins["paperbell"]
+> .verificationWorker` 之类）已经全部关闭。见
+> [MIGRATION-0.4.7.md](./MIGRATION-0.4.7.md)。
+
 ## 1. 入口
 
 | 符号 | 位置 | 类型 |

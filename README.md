@@ -51,6 +51,11 @@ so the appendix is what you vendor.)
 
 **Current contract version: `PPB_SCHEMA_VERSION = 2`.**
 
+> **Upgrading a companion plugin from 0.4.5 or earlier?** The contract's field
+> shapes did not change, but paths that reached around it — `app.plugins.plugins
+> ["paperbell"].verificationWorker` and friends — are now closed. See
+> [MIGRATION-0.4.7.md](./MIGRATION-0.4.7.md).
+
 ## 1. Entry points
 
 | Symbol | Where | Type |
