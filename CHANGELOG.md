@@ -5,6 +5,40 @@
      body as the GitHub release notes. A release with an empty Unreleased
      section is refused. -->
 
+# 0.4.7
+
+- **Security: the plugin instance no longer exposes its internals.** Anything a
+  companion plugin could reach through `app.plugins.plugins["paperbell"]` was an
+  API in practice, and the scope/consent system sat beside it rather than in
+  front of it. The consent list was forgeable (`settings.pluginGrants`), the
+  activation code was readable in memory, and `verificationWorker` /
+  `proxyService` / `agentExecutor` / `updater` were directly callable — also via
+  Obsidian's `_children` array. Implementation objects and credentials now live
+  in a module-private registry; the instance exposes only `api` and `settings`.
+- **Security: `PaperbellSettings` no longer carries secrets or the consent list.**
+  `registrationId`, `oauthLoginState`, `pluginGrants` and `agentAutoExec` moved
+  out. Existing `data.json` files are read and rewritten unchanged, so nothing is
+  lost on upgrade or on a rollback to 0.4.6.
+- Fix: companion plugins that were denied every scope no longer appear in
+  PaperBell's "connected plugins" list, and the list now refreshes the moment a
+  scope is granted.
+- Fix: `llm.model` falls back to the built-in provider's default the same way
+  `llm.baseUrl` already did — a user who set a key but never picked a model got
+  a green "connection OK" and a failing AI call. The error now names the missing
+  item instead of listing all three, and the connection test checks the model.
+- Fix: a companion plugin holding a client from before a PaperBell reload now
+  gets a clear null/`ok: false` instead of an opaque throw. Previously the
+  companion swallowed it and called the provider with no key, surfacing an
+  unrelated upstream 401.
+- Fix: reading the activation code no longer hits the OS keychain on every
+  settings render — the settings panel is responsive again.
+- Fix: the onboarding wizard's status pills are no longer rendered as dead
+  buttons, the complete step has one closing action instead of two identical
+  ones, and a failed tutorial image shows an explanation rather than a broken
+  icon.
+- Chore: 58 unused runtime dependencies removed (a fresh install drops from
+  318 MB to 154 MB), type errors down to zero, ESLint added to CI.
+
 # 0.4.6
 
 - Feat: meter host-mediated AI calls for unlicensed users — 5 free calls per
