@@ -174,8 +174,8 @@ A structural superset of `PaperBellPublicConfig`.
 | `providerId` | `string?` | Active provider instance id, e.g. `openai`, `anthropic`, or a custom slug |
 | `providerName` | `string?` | Display name of that provider |
 | `api` | `"anthropic" \| "openai"` | Wire format — decides request and response shape |
-| `baseUrl` | `string` | Gateway base URL (no trailing slash) |
-| `model` | `string` | Default model id |
+| `baseUrl` | `string` | Gateway base URL, normalised (no trailing slash). This is the **effective** value — when the user left it blank it falls back to the built-in provider's default |
+| `model` | `string` | Default model id, **effective** value — falls back to the built-in provider's default when the user never picked one |
 | `models` | `{ extract?: string; query?: string }?` | Optional per-task model routing |
 | `hasApiKey` | `boolean` | Whether a key exists in Obsidian's secret storage. **The key itself is never in this object** |
 

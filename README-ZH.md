@@ -164,8 +164,8 @@ else this.registerEvent(this.app.workspace.on("paperbell:ready" as any, ready));
 | `providerId` | `string?` | 当前激活的提供方实例 id，如 `openai`、`anthropic` 或自定义 slug |
 | `providerName` | `string?` | 该提供方的展示名 |
 | `api` | `"anthropic" \| "openai"` | 请求协议，决定请求与响应形态 |
-| `baseUrl` | `string` | 网关基址（无尾部斜杠） |
-| `model` | `string` | 默认模型 id |
+| `baseUrl` | `string` | 网关基址，已规范化（无尾部斜杠）。这是**生效值** —— 用户留空时回落到内置提供方的默认地址 |
+| `model` | `string` | 默认模型 id，同样是**生效值** —— 用户没选过时回落到内置提供方的默认模型 |
 | `models` | `{ extract?: string; query?: string }?` | 可选：按任务路由到不同模型 |
 | `hasApiKey` | `boolean` | 宿主是否已在 Obsidian secretStorage 中配好密钥。**密钥本身绝不在这个对象里** |
 
