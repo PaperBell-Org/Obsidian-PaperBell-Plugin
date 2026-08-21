@@ -62,7 +62,6 @@ so the appendix is what you vendor.)
 |---|---|---|
 | `window.registerPPBplugin(source)` | global | `(source: PPBRequestSource) => PPBClient` |
 | `app.plugins.plugins["paperbell"].api` | Obsidian plugin instance | `PPBHostApi` |
-| `window.paperbell` | global | `PaperbellAPI` (legacy institution helpers) |
 | `"paperbell:ready"` | `app.workspace` event | payload `PPBHostApi` |
 | `"paperbell:config-changed"` | `app.workspace` event | payload `PaperBellPublicConfig` |
 
@@ -410,47 +409,27 @@ survive a PaperBell reload. Re-handshake on `paperbell:ready` and resubscribe.
   way), so never assert `schemaVersion === 2` for equality. Compare with `>=`,
   and treat unknown optional fields as absent.
 
-## 9. Legacy institution API
+## 9. Removed: the legacy institution API (0.4.8)
 
-`window.paperbell` predates the IPC contract and remains for QuickAdd users.
+`window.paperbell` — `searchInstitution` / `createInstitutionNote` — the two
+commands (`搜索机构` / `创建机构笔记`), the ribbon icon, the institution settings
+tab and the `{{ppb.institute.*}}` template placeholders are **gone as of 0.4.8**.
+They had already stopped working: the implementation called ROR's **v1**
+endpoint, which ROR retired (it now answers `410 Gone`), so every lookup failed.
 
-```ts
-interface PaperbellAPI {
-    searchInstitution(name: string): Promise<InstitutionNote | null>;
-    createInstitutionNote(institution: InstitutionNote): Promise<void>;
-}
+Institution lookup now lives in the **Paper In Bell** sub-plugin, as its built-in
+script 「关联机构（ROR）」. It calls ROR **v2**'s `affiliation` endpoint, so it
+accepts strings that carry a department prefix, dedupes on `ror_id`, and writes
+`ror_id` / `country` / `city` / `established` that the old host version never
+had. The one field it cannot fill is `logo` — ROR v2 no longer publishes it.
 
-interface InstitutionNote {
-    abbr: string;
-    aliases: string[];
-    website: string;
-    location: [number, number];   // [lat, lon]
-    logo: string;
-    name: string;
-    tags: string[];
-}
-```
+If you drove the old API from QuickAdd, replace the macro with a Paper In Bell
+script run; there is no host-side shim.
 
-Institution note templates support these placeholders:
-
-| Variable | Meaning | Example |
-|---|---|---|
-| `{{ppb.institute.name}}` | Full name | Harvard University |
-| `{{ppb.institute.abbr}}` | Abbreviation | HU |
-| `{{ppb.institute.aliases}}` | Alternative names, rendered as a YAML list | `- Harvard` |
-| `{{ppb.institute.website}}` | Website URL | https://harvard.edu |
-| `{{ppb.institute.lat}}` / `{{ppb.institute.lon}}` | Coordinates | 42.3744, -71.1169 |
-| `{{ppb.institute.logo}}` | Logo URL | https://example.com/logo.png |
-| `{{ppb.institute.tags}}` | Tags, rendered as a YAML list | `- university` |
-
-Array values expand to one `- item` per line, so put them where a YAML list is
-expected.
-
-> ⚠️ The institution settings tab is **commented out** in current builds, so the
-> template path cannot be set from the UI right now. The commands
-> (`搜索机构` / `创建机构笔记`), the ribbon icon and `window.paperbell` all still
-> work, and an existing `institutionNoteTemplate` value in `data.json` is still
-> honoured — but a fresh install has no way to point at a template.
+The five host settings keys that backed it (`noteLocation`,
+`institutionNoteTemplate`, `autoGenerateInstitutionNotes`,
+`openInstitutionAfterCreation`, `listenToFileCreatedInPath`) are dropped from
+`data.json` on first load after upgrading.
 
 ## Appendix A — the contract in full
 

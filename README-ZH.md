@@ -56,7 +56,6 @@ PaperBell 是 Obsidian 上 PaperBell 系列插件的**主插件（宿主）**。
 |---|---|---|
 | `window.registerPPBplugin(source)` | 全局 | `(source: PPBRequestSource) => PPBClient` |
 | `app.plugins.plugins["paperbell"].api` | Obsidian 插件实例 | `PPBHostApi` |
-| `window.paperbell` | 全局 | `PaperbellAPI`（早期的机构笔记辅助 API） |
 | `"paperbell:ready"` | `app.workspace` 事件 | 载荷 `PPBHostApi` |
 | `"paperbell:config-changed"` | `app.workspace` 事件 | 载荷 `PaperBellPublicConfig` |
 
@@ -388,45 +387,26 @@ const stop = ppb.onConfigChange((cfg) => {
 - 追加**可选**字段不 bump（`cimpoFolders` 就是这么加的）。所以永远不要写
   `schemaVersion === 2` 这样的等值校验，请用 `>=`，并把不认识的可选字段当作缺席。
 
-## 9. 早期的机构笔记 API
+## 9. 已移除：早期的机构笔记 API（0.4.8）
 
-`window.paperbell` 早于 IPC 契约存在，为 QuickAdd 用户保留。
+`window.paperbell`（`searchInstitution` / `createInstitutionNote`）、两条命令
+（`搜索机构` / `创建机构笔记`）、ribbon 图标、机构笔记设置页，以及
+`{{ppb.institute.*}}` 模板占位符，**自 0.4.8 起全部移除**。
 
-```ts
-interface PaperbellAPI {
-    searchInstitution(name: string): Promise<InstitutionNote | null>;
-    createInstitutionNote(institution: InstitutionNote): Promise<void>;
-}
+它们其实早就不工作了：宿主这份实现打的是 ROR 的 **v1** 端点，而该端点已被 ROR
+下线（现在返回 `410 Gone`），任何一次查询都必然失败。
 
-interface InstitutionNote {
-    abbr: string;
-    aliases: string[];
-    website: string;
-    location: [number, number];   // [lat, lon]
-    logo: string;
-    name: string;
-    tags: string[];
-}
-```
+机构抓取现在归子插件 **Paper In Bell**，即它的内置脚本「关联机构（ROR）」。
+那份走 ROR **v2** 的 `affiliation` 匹配端点，因此能直接吃带院系前缀的字符串，
+按 `ror_id` 去重，并会写入宿主旧版从来没有的 `ror_id` / `country` / `city` /
+`established`。唯一填不了的字段是 `logo` —— ROR v2 不再提供它。
 
-机构笔记模板支持以下占位符：
+如果你从前用 QuickAdd 调这套 API，请改成运行 Paper In Bell 的脚本；
+宿主侧不提供兼容垫片。
 
-| 变量 | 含义 | 示例 |
-|---|---|---|
-| `{{ppb.institute.name}}` | 机构全称 | 哈佛大学 |
-| `{{ppb.institute.abbr}}` | 机构缩写 | HU |
-| `{{ppb.institute.aliases}}` | 别名，渲染成 YAML 列表 | `- Harvard` |
-| `{{ppb.institute.website}}` | 机构网站 | https://harvard.edu |
-| `{{ppb.institute.lat}}` / `{{ppb.institute.lon}}` | 地理坐标 | 42.3744, -71.1169 |
-| `{{ppb.institute.logo}}` | Logo 链接 | https://example.com/logo.png |
-| `{{ppb.institute.tags}}` | 标签，渲染成 YAML 列表 | `- university` |
-
-数组类型会展开成每行一个 `- item`，所以要放在 YAML 列表的位置上。
-
-> ⚠️ 机构笔记设置页在当前版本里是**注释掉的**，所以模板路径暂时无法从界面设置。
-> 命令（`搜索机构` / `创建机构笔记`）、ribbon 图标和 `window.paperbell` 都仍然可用，
-> `data.json` 里已有的 `institutionNoteTemplate` 也仍然生效 ——
-> 但全新安装的用户没有途径指定模板。
+支撑它的五个宿主设置键（`noteLocation`、`institutionNoteTemplate`、
+`autoGenerateInstitutionNotes`、`openInstitutionAfterCreation`、
+`listenToFileCreatedInPath`）会在升级后首次加载时从 `data.json` 中清除。
 
 ## 附录 A —— 完整契约声明
 

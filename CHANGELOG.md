@@ -5,6 +5,30 @@
      body as the GitHub release notes. A release with an empty Unreleased
      section is refused. -->
 
+- **Removed: institution notes.** `window.paperbell`
+  (`searchInstitution` / `createInstitutionNote`), the `搜索机构` /
+  `创建机构笔记` commands, the graduation-cap ribbon icon, the institution
+  settings tab, the `{{ppb.institute.*}}` template placeholders and the
+  `Persons/Scholars` create-watcher that auto-generated institution notes are
+  all gone. **This is a breaking change if you drove the old API from QuickAdd**
+  — but the feature had already stopped working: it called ROR's **v1**
+  endpoint, which ROR retired and now answers with `410 Gone`, so every lookup
+  failed regardless.
+
+  Institution lookup lives in the **Paper In Bell** sub-plugin now, as its
+  built-in script 「关联机构（ROR）」. That one uses ROR **v2**'s `affiliation`
+  endpoint, so it accepts names carrying a department prefix, dedupes on
+  `ror_id`, and records `ror_id` / `country` / `city` / `established` that the
+  host version never had. The only field it cannot fill is `logo`, which ROR v2
+  no longer publishes.
+
+  The five settings keys behind the feature (`noteLocation`,
+  `institutionNoteTemplate`, `autoGenerateInstitutionNotes`,
+  `openInstitutionAfterCreation`, `listenToFileCreatedInPath`) are stripped from
+  `data.json` on the first load after upgrading, the same way `registrationId`
+  and `pluginGrants` were in 0.4.7. Rolling back to 0.4.7 therefore loses those
+  five values — they configured a feature that could not succeed anyway.
+
 # 0.4.7
 
 - **Security: the plugin instance no longer exposes its internals.** Anything a
