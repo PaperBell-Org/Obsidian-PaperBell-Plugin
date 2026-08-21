@@ -5,6 +5,8 @@
      body as the GitHub release notes. A release with an empty Unreleased
      section is refused. -->
 
+# 0.4.8
+
 - **Removed: institution notes.** `window.paperbell`
   (`searchInstitution` / `createInstitutionNote`), the `搜索机构` /
   `创建机构笔记` commands, the graduation-cap ribbon icon, the institution
